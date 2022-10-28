@@ -1,15 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import auth from '../../firebase.init';
+import Loader from './Loader';
 
 const Navbar = ({ dark, setDark }) => {
+    const [user, loading, error] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth);
+    };
     const menu = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/'>Tour</Link></li>
         <li><Link to='/'>Blogs</Link></li>
         <li><Link to='/dashboard'>Dashboard</Link></li>
+        {
+            user
+                ?
+                <li><button className='btn' onClick={logout}>Logout</button></li>
+                :
+                <div className='lg:flex md:'>
+                    <li><Link to='/login'>Login</Link></li>
+                    <li><Link to='/signup'>Signup</Link></li>
+                </div>
+        }
     </>
+    if (loading) {
+        return <Loader />
+    }
+
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-primary text-white sticky top-0 z-50">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">

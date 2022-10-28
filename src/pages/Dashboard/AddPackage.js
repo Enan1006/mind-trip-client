@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
-import { DefaultEditor } from 'react-simple-wysiwyg';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { toast } from 'react-toastify';
 
 const AddPackage = () => {
@@ -38,6 +37,7 @@ const AddPackage = () => {
                 const packageInfo = {
                     img: img,
                     name: data.name,
+                    price: data.price,
                     country: country,
                     region: region,
                     duration: data.duration,
@@ -128,6 +128,17 @@ const AddPackage = () => {
                         type='number'
                         className="input input-bordered w-full" required
                         {...register("duration", { required: true })}
+                        aria-invalid={errors.firstName ? "true" : "false"}
+                    />
+                </div>
+                <div className='mt-5'>
+                    <label className="label">
+                        <span className="label-text">Package Price</span>
+                    </label>
+                    <input
+                        type='number'
+                        className="input input-bordered w-full" required
+                        {...register("price", { required: true })}
                         aria-invalid={errors.firstName ? "true" : "false"}
                     />
                 </div>
